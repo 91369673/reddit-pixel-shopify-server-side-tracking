@@ -1,6 +1,6 @@
 # Reddit Pixel Shopify Server-Side Tracking
 
-Server-side conversion tracking for Reddit Ads using Shopify webhooks and Reddit Conversions API. This implementation bypasses browser-based tracking limitations (ad blockers, privacy settings, iOS restrictions) to ensure 100% conversion data accuracy.
+Server-side conversion tracking for Reddit Ads using Shopify webhooks and Reddit Conversions API. This implementation bypasses browser-based tracking limitations (ad blockers, privacy settings, iOS restrictions) to capture conversions that client-side pixels miss.
 
 ## Why Server-Side Tracking?
 
@@ -14,7 +14,7 @@ Client-side pixel tracking loses 30-50% of conversions due to:
 - iOS App Tracking Transparency
 - Third-party cookie blocking
 
-This server-side implementation captures 100% of conversion events by sending data directly from your server to Reddit's API.
+This server-side implementation captures conversions that browser-based tracking misses by sending data directly from your server to Reddit's API.
 
 ## Features
 
