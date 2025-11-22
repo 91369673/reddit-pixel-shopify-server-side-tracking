@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  reddit-capi:
+    build: .
+    ports:
+      # Bind only to localhost - not publicly accessible
+      - "127.0.0.1:3000:3000"
+    environment:
+      - PORT=3000
+      - SHOPIFY_WEBHOOK_SECRET=${SHOPIFY_WEBHOOK_SECRET}
+      - REDDIT_PIXEL_ID=${REDDIT_PIXEL_ID}
+      - REDDIT_ACCESS_TOKEN=${REDDIT_ACCESS_TOKEN}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=reddit_capi
+      - DB_USER=reddit_capi
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=reddit_capi
+      - POSTGRES_USER=reddit_capi
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+volumes:
+  pgdata:
